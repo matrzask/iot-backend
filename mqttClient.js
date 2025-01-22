@@ -69,7 +69,7 @@ client.on('message', function (topic, message) {
 
   for (let [id, socket] of io.of('/').sockets) {
     if (socket.deviceId === topic.split('/')[1]) {
-      socket.emit(topic, value);
+      socket.emit("mqttdata", {topic, value});
     }
   }
 });
