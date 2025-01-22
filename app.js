@@ -23,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
+
 app.use('/auth', authRouter);
 
 const PORT = process.env.PORT || 3000;
