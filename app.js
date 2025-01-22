@@ -4,12 +4,14 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var connectDB = require('./config/db');
-
-require('./socketio');
-require('./mqttClient');
-var authRouter = require('./routes/authRoute');
+var http = require('http');
 
 var app = express();
+var server = http.createServer(app);
+
+require('./socketio')(server);
+require('./mqttClient');
+var authRouter = require('./routes/authRoute');
 
 connectDB();
 
@@ -21,4 +23,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/auth', authRouter);
 
-module.exports = app;
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => {
+    console.log(`Server is listening on port ${PORT}`);
+});
+
+module.exports = { app, server };

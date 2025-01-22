@@ -38,7 +38,6 @@ exports.loginUser = async (req, res) => {
                 data: {
                     user,
                     token,
-                    refreshToken,
                 },
             });
         } else {
