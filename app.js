@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var connectDB = require('./config/db');
 
+require('./socketio');
 require('./mqttClient');
 var authRouter = require('./routes/authRoute');
 
