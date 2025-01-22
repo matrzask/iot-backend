@@ -11,12 +11,7 @@ function bytesToFloat(bytes) {
 
 client.on('connect', function () {
   console.log('Connected to MQTT broker');
-  client.subscribe('/info/connect', function (err) {
-    if (!err) {
-      console.log('Subscribed to topic');
-    }
-  });
-  client.subscribe('/gps/#', function (err) {
+  client.subscribe('/+/gps/#', function (err) {
     if (!err) {
       console.log('Subscribed to topic');
     }
@@ -25,7 +20,7 @@ client.on('connect', function () {
 
 client.on('message', function (topic, message) {
   // message is Buffer
-  if(topic.startsWith('/gps/')) {
+  if(topic.includes('/gps/')) {
     try {
       let value = bytesToFloat(message);
       console.log(`Received message: ${value} on topic: ${topic}`);
