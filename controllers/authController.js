@@ -79,12 +79,14 @@ exports.setDeviceId = async (req, res) => {
             });
         }
 
-        const existingUser = await User.findOne({ deviceId });
-        if (existingUser) {
-            return res.status(400).json({
-                status: 'fail',
-                message: 'Device ID is already in use by another user',
-            });
+        if (deviceId !== '') {
+            const existingUser = await User.findOne({ deviceId });
+            if (existingUser) {
+                return res.status(400).json({
+                    status: 'fail',
+                    message: 'Device ID is already in use by another user',
+                });
+            }
         }
 
         user.deviceId = deviceId;
