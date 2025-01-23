@@ -15,7 +15,6 @@ module.exports = (server) => {
     );
 
     io.on('connection', async (socket) => {
-        console.log('New connection');
         const token = socket.handshake.query.token; // token passed in query
 
         if (!token) {

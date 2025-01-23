@@ -6,6 +6,6 @@ const { protect } = require('../middleware/authMiddleware');
 router.post('/register', authController.registerUser);
 router.post('/login', authController.loginUser);
 router.get('/users', authController.getUsers);
-router.post('/setDeviceId', protect, authController.setDeviceId);
+router.patch('/setDeviceId', protect, authController.setDeviceId);
 
 module.exports = router;
