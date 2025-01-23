@@ -2,8 +2,10 @@ const socketIo = require('socket.io');
 const jwt = require('jsonwebtoken');
 const User = require('./models/userModel.js');
 
+let io;
+
 module.exports = (server) => {
-    const io = socketIo(server,
+    io = socketIo(server,
         {
             cors: {
                 origin: '*',
@@ -49,3 +51,5 @@ module.exports = (server) => {
         }
     });
 }
+
+module.exports.getIo = () => io;

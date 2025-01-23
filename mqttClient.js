@@ -1,6 +1,6 @@
 var mqtt = require('mqtt');
 var client  = mqtt.connect('mqtt:localhost:1883');
-var io = require('./socketio').io;
+var { getIo } = require('./socketio');
 
 function bytesToFloat(bytes) {
   if (bytes.length !== 4) {
@@ -52,7 +52,7 @@ client.on('message', function (topic, message) {
   let value = message.toString();
   if(topic.includes('/gps/') || topic.includes('/termistor/temperature')) {
     try {
-      let value = bytesToFloat(message);
+      value = bytesToFloat(message);
       console.log(`Received message: ${value} on topic: ${topic}`);
     } catch (error) {
       console.error(`Error processing message on topic ${topic}: ${error.message}`);
@@ -60,13 +60,14 @@ client.on('message', function (topic, message) {
   }
   else if(topic.includes('/max30102/') || topic.includes('/adxl345/')) {
     try {
-      let value = bytesToInt(message);
+      value = bytesToInt(message);
       console.log(`Received message: ${value} on topic: ${topic}`);
     } catch (error) {
       console.error(`Error processing message on topic ${topic}: ${error.message}`);
     }
   }
 
+  const io = getIo();
   for (let [id, socket] of io.of('/').sockets) {
     if (socket.deviceId === topic.split('/')[1]) {
       socket.emit("mqttdata", {topic, value});
