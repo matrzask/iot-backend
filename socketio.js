@@ -4,7 +4,7 @@ const User = require('./models/userModel.js');
 
 let io;
 
-module.exports = (server) => {
+module.exports = (server, mqttClient) => {
     io = socketIo(server,
         {
             cors: {
@@ -43,6 +43,10 @@ module.exports = (server) => {
             });
             socket.on('message', (data) => {
                 console.log(`Received message from user ${user._id}:`, data);
+            });
+            socket.on('setDelay', (delay) => {
+                console.log(`Setting ${user.deviceId} delay to ${delay}`);
+                mqttClient.publish(`/${user.deviceId}/delay`, delay.toString());
             });
         } catch (error) {
             console.log('Error during token verification or user retrieval:', error);

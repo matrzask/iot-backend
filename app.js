@@ -6,12 +6,15 @@ var logger = require('morgan');
 var cors = require('cors');
 var connectDB = require('./config/db');
 var http = require('http');
+var mqtt = require('mqtt');
 
 var app = express();
 var server = http.createServer(app);
 
-require('./socketio')(server);
-require('./mqttClient');
+var mqttClient = mqtt.connect('mqtt:localhost:1883');
+
+require('./socketio')(server, mqttClient);
+require('./mqttClient')(mqttClient);
 var authRouter = require('./routes/authRoute');
 
 connectDB();
@@ -22,7 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-
 
 app.use('/auth', authRouter);
 
