@@ -30,7 +30,7 @@ client.on('connect', function () {
       console.log('Subscribed to topic');
     }
   });
-  client.subscribe('/+/termistor/#', function (err) {
+  client.subscribe('/+/thermistor/#', function (err) {
     if (!err) {
       console.log('Subscribed to topic');
     }
@@ -50,7 +50,7 @@ client.on('connect', function () {
 client.on('message', function (topic, message) {
   // message is Buffer
   let value = message.toString();
-  if(topic.includes('/gps/') || topic.includes('/termistor/temperature')) {
+  if(topic.includes('/gps/') || topic.includes('/thermistor/temperature')) {
     try {
       value = bytesToFloat(message);
       console.log(`Received message: ${value} on topic: ${topic}`);
