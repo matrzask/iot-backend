@@ -50,7 +50,7 @@ module.exports = (client) => {
   client.on('message', function (topic, message) {
     // message is Buffer
     let value = message.toString();
-    if(topic.includes('/gps/') || topic.includes('/thermistor/temperature')) {
+    if(topic.includes('/gps/') || topic.includes('/thermistor/temperature') || topic.includes('/adxl345/')) {
       try {
         value = bytesToFloat(message);
         console.log(`Received message: ${value} on topic: ${topic}`);
@@ -58,7 +58,7 @@ module.exports = (client) => {
         console.error(`Error processing message on topic ${topic}: ${error.message}`);
       }
     }
-    else if(topic.includes('/max30102/') || topic.includes('/adxl345/')) {
+    else if(topic.includes('/max30102/')) {
       try {
         value = bytesToInt(message);
         console.log(`Received message: ${value} on topic: ${topic}`);
